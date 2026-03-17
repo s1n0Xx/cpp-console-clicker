@@ -7,20 +7,34 @@ int main() {
     setlocale(LC_ALL, "Russian");
 
     int score = 0;
+    int clickPower = 1;
+    int upgradeCost = 10;
     char input;
 
-    std::cout << "Нажми 'c' чтобы кликать, 'q' чтобы выйти\n";
+    cout << "c — клик | u — улучшение | q — выход\n";
 
     while (true) {
-        std::cin >> input;
+        cin >> input;
 
         if (input == 'c') {
-            score++;
-            std::cout << "Очки: " << score << std::endl;
+            score += clickPower;
+        }
+        else if (input == 'u') {
+            if (score >= upgradeCost) {
+                score -= upgradeCost;
+                clickPower++;
+                upgradeCost *= 2;
+                cout << "Улучшение куплено! Сила клика: " << clickPower << endl;
+            }
+            else {
+                cout << "Недостаточно очков!\n";
+            }
         }
         else if (input == 'q') {
             break;
         }
+
+        cout << "Очки: " << score << " | Сила клика: " << clickPower << endl;
     }
 
     return 0;

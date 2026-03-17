@@ -8,12 +8,16 @@ int main() {
 
     int score = 0;
     int clickPower = 1;
+    int autoIncome = 0;
     int upgradeCost = 10;
+    int autoCost = 20;
     char input;
 
-    cout << "c — клик | u — улучшение | q — выход\n";
+    cout << "c — клик | u — улучшение | a — авто | q — выход\n";
 
     while (true) {
+        score += autoIncome;
+
         cin >> input;
 
         if (input == 'c') {
@@ -24,9 +28,18 @@ int main() {
                 score -= upgradeCost;
                 clickPower++;
                 upgradeCost *= 2;
-                cout << "Улучшение куплено! Сила клика: " << clickPower << endl;
+                cout << "Улучшение куплено!\n";
+            } else {
+                cout << "Недостаточно очков!\n";
             }
-            else {
+        }
+        else if (input == 'a') {
+            if (score >= autoCost) {
+                score -= autoCost;
+                autoIncome++;
+                autoCost *= 2;
+                cout << "Автодоход увеличен!\n";
+            } else {
                 cout << "Недостаточно очков!\n";
             }
         }
@@ -34,7 +47,9 @@ int main() {
             break;
         }
 
-        cout << "Очки: " << score << " | Сила клика: " << clickPower << endl;
+        cout << "Очки: " << score
+             << " | Клик: " << clickPower
+             << " | Авто: " << autoIncome << endl;
     }
 
     return 0;

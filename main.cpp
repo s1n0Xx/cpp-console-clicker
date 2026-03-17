@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -16,8 +17,15 @@ int main() {
     cout << "c — клик | u — улучшение | a — авто | q — выход\n";
 
     while (true) {
+        system("cls");
+
         score += autoIncome;
 
+        cout << "Очки: " << score
+            << " | Клик: " << clickPower
+            << " | Авто: " << autoIncome << endl;
+
+        cout << "Введите команду: ";
         cin >> input;
 
         if (input == 'c') {
@@ -29,7 +37,8 @@ int main() {
                 clickPower++;
                 upgradeCost *= 2;
                 cout << "Улучшение куплено!\n";
-            } else {
+            }
+            else {
                 cout << "Недостаточно очков!\n";
             }
         }
@@ -39,17 +48,14 @@ int main() {
                 autoIncome++;
                 autoCost *= 2;
                 cout << "Автодоход увеличен!\n";
-            } else {
+            }
+            else {
                 cout << "Недостаточно очков!\n";
             }
         }
         else if (input == 'q') {
             break;
         }
-
-        cout << "Очки: " << score
-             << " | Клик: " << clickPower
-             << " | Авто: " << autoIncome << endl;
     }
 
     return 0;

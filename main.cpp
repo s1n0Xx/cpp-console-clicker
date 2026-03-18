@@ -1,7 +1,50 @@
 #include <iostream>
 #include <cstdlib>
+#include <thread>
+#include <chrono>
+#include <conio.h>
 
 using namespace std;
+
+void showUpgrades(int& score, int& clickPower, int& autoIncome, int& upgradeCost, int& autoCost) {
+    while (true) {
+        system("cls");
+        cout << "Улучшения\n";
+        cout << "Очки: " << score << "\n\n";
+
+        cout << "1. Увеличить клик (+" << clickPower << ") Цена: " << upgradeCost << endl;
+        cout << "2. Автодоход (+1/сек) Цена: " << autoCost << endl;
+        cout << "0. Назад\n";
+
+        char choice = _getch();
+
+        if (choice == '1') {
+            if (score >= upgradeCost) {
+                score -= upgradeCost;
+                clickPower++;
+                upgradeCost *= 2;
+            }
+            else {
+                cout << "\nНедостаточно очков!";
+                system("pause");
+            }
+        }
+        else if (choice == '2') {
+            if (score >= autoCost) {
+                score -= autoCost;
+                autoIncome++;
+                autoCost *= 2;
+            }
+            else {
+                cout << "\nНедостаточно очков!";
+                system("pause");
+            }
+        }
+        else if (choice == '0') {
+            break;
+        }
+    }
+}
 
 int main() {
 
@@ -12,50 +55,40 @@ int main() {
     int autoIncome = 0;
     int upgradeCost = 10;
     int autoCost = 20;
-    char input;
 
-    cout << "c — клик | u — улучшение | a — авто | q — выход\n";
+    int timer = 0; 
 
     while (true) {
         system("cls");
 
-        score += autoIncome;
-
+        cout << "Игра\n";
         cout << "Очки: " << score
             << " | Клик: " << clickPower
-            << " | Авто: " << autoIncome << endl;
+            << " | Авто/сек: " << autoIncome << "\n\n";
 
-        cout << "Введите команду: ";
-        cin >> input;
+        cout << "c — клик | u — улучшения | q — выход\n";
 
-        if (input == 'c') {
-            score += clickPower;
-        }
-        else if (input == 'u') {
-            if (score >= upgradeCost) {
-                score -= upgradeCost;
-                clickPower++;
-                upgradeCost *= 2;
-                cout << "Улучшение куплено!\n";
+        if (_kbhit()) {
+            char input = _getch();
+
+            if (input == 'c') {
+                score += clickPower;
             }
-            else {
-                cout << "Недостаточно очков!\n";
+            else if (input == 'u') {
+                showUpgrades(score, clickPower, autoIncome, upgradeCost, autoCost);
             }
-        }
-        else if (input == 'a') {
-            if (score >= autoCost) {
-                score -= autoCost;
-                autoIncome++;
-                autoCost *= 2;
-                cout << "Автодоход увеличен!\n";
-            }
-            else {
-                cout << "Недостаточно очков!\n";
+            else if (input == 'q') {
+                break;
             }
         }
-        else if (input == 'q') {
-            break;
+
+        timer++;
+        if (timer >= 10) {
+            score += autoIncome;
+            timer = 0;
         }
+
+        this_thread::sleep_for(chrono::milliseconds(100)); 
     }
 
     return 0;
